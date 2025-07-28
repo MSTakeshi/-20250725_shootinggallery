@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>夏祭り射的ゲーム</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>夏祭り射的ゲーム</h1>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <div id="startButtonContainer">
+            <button id="startButton">ゲームスタート！</button>
+        </div>
+        <div id="gameOverScreen" class="hidden">
+            <h2>ゲームオーバー！</h2>
+            <p>あなたのスコア: <span id="finalScore">0</span>点</p>
+            <button id="restartButton">もう一度プレイ</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

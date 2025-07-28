@@ -1,0 +1,72 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #ffe0b2; /* 夏祭りらしい暖色系の背景 */
+    font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif; /* 丸みのあるフォント */
+    color: #333;
+}
+
+h1 {
+    color: #d32f2f; /* 赤系のタイトル色 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* 影をつけて立体感を出す */
+    margin-bottom: 20px;
+}
+
+#gameContainer {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    border: 5px solid #8d6e63; /* 木目調の枠 */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* 影をつけて浮き上がらせる */
+    overflow: hidden; /* はみ出た要素を隠す */
+}
+
+canvas {
+    background-image: url('images/background.png');
+    background-size: cover; /* 画像がキャンバス全体を覆うように設定 */
+    background-repeat: no-repeat; /* 画像の繰り返しを無効化 */
+    display: block; /* 余白をなくす */
+}
+
+#startButtonContainer,
+#gameOverScreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7); /* 半透明の黒背景 */
+    color: white;
+    font-size: 2em;
+    text-align: center;
+}
+
+#gameOverScreen.hidden,
+#startButtonContainer.hidden {
+    display: none;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: #ff5722; /* オレンジ系のボタン色 */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #e64a19;
+}
