@@ -8,7 +8,7 @@ const gameOverScreen = document.getElementById('gameOverScreen');
 const finalScoreSpan = document.getElementById('finalScore');
 
 // 効果音のロード
-const hitSound = new Audio('./sounds/パッ.mp3');
+const hitSound = new Audio('./sounds/パッ.mpd');
 const gameOverSound = new Audio('./sounds/試合終了のゴング.mp3');
 
 // 画像ファイルのパス
@@ -117,34 +117,34 @@ function initGame() {
 // 的を生成する関数
 function createTargets() {
     // 上の列 (小さい的) - 一番速い
-    const smallRadius = 30; // 画像に合わせて調整
-    const smallY = 150;
+    const smallRadius = canvas.height * 0.05; // 画像に合わせて調整
+    const smallY = canvas.height * 0.25;
     const smallScore = 300;
-    const smallSpeed = 4;
+    const smallSpeed = 4 * (canvas.width / 800); // 幅に合わせて速度を調整
     const topImage1 = topRowImages[Math.floor(Math.random() * topRowImages.length)];
     const topImage2 = topRowImages[Math.floor(Math.random() * topRowImages.length)];
-    targets.push(new Target(150, smallY, smallRadius, topImage1, smallSpeed, smallScore));
-    targets.push(new Target(450, smallY, smallRadius, topImage2, -smallSpeed, smallScore));
+    targets.push(new Target(canvas.width * 0.2, smallY, smallRadius, topImage1, smallSpeed, smallScore));
+    targets.push(new Target(canvas.width * 0.8, smallY, smallRadius, topImage2, -smallSpeed, smallScore));
 
     // 中の列 (中くらいの的) - 普通
-    const mediumRadius = 50; // 画像に合わせて調整
-    const mediumY = 300;
+    const mediumRadius = canvas.height * 0.08; // 画像に合わせて調整
+    const mediumY = canvas.height * 0.5;
     const mediumScore = 200;
-    const mediumSpeed = 2.5;
+    const mediumSpeed = 2.5 * (canvas.width / 800); // 幅に合わせて速度を調整
     const middleImage1 = middleRowImages[Math.floor(Math.random() * middleRowImages.length)];
     const middleImage2 = middleRowImages[Math.floor(Math.random() * middleRowImages.length)];
-    targets.push(new Target(150, mediumY, mediumRadius, middleImage1, mediumSpeed, mediumScore));
-    targets.push(new Target(450, mediumY, mediumRadius, middleImage2, -mediumSpeed, mediumScore));
+    targets.push(new Target(canvas.width * 0.2, mediumY, mediumRadius, middleImage1, mediumSpeed, mediumScore));
+    targets.push(new Target(canvas.width * 0.8, mediumY, mediumRadius, middleImage2, -mediumSpeed, mediumScore));
 
     // 下の列 (大きい的) - ゆっくり
-    const largeRadius = 80; // 画像に合わせて調整
-    const largeY = 450;
+    const largeRadius = canvas.height * 0.12; // 画像に合わせて調整
+    const largeY = canvas.height * 0.75;
     const largeScore = 100;
-    const largeSpeed = 1.5;
+    const largeSpeed = 1.5 * (canvas.width / 800); // 幅に合わせて速度を調整
     const bottomImage1 = bottomRowImages[Math.floor(Math.random() * bottomRowImages.length)];
     const bottomImage2 = bottomRowImages[Math.floor(Math.random() * bottomRowImages.length)];
-    targets.push(new Target(150, largeY, largeRadius, bottomImage1, largeSpeed, largeScore));
-    targets.push(new Target(450, largeY, largeRadius, bottomImage2, -largeSpeed, largeScore));
+    targets.push(new Target(canvas.width * 0.2, largeY, largeRadius, bottomImage1, largeSpeed, largeScore));
+    targets.push(new Target(canvas.width * 0.8, largeY, largeRadius, bottomImage2, -largeSpeed, largeScore));
 }
 
 // 新しい的を生成する関数
@@ -154,24 +154,24 @@ function spawnTarget() {
 
     switch (row) {
         case 0: // Small targets (top row)
-            radius = 30;
-            y = 150;
+            radius = canvas.height * 0.05;
+            y = canvas.height * 0.25;
             scoreValue = 300;
-            speed = 4;
+            speed = 4 * (canvas.width / 800);
             image = topRowImages[Math.floor(Math.random() * topRowImages.length)];
             break;
         case 1: // Medium targets (middle row)
-            radius = 50;
-            y = 300;
+            radius = canvas.height * 0.08;
+            y = canvas.height * 0.5;
             scoreValue = 200;
-            speed = 2.5;
+            speed = 2.5 * (canvas.width / 800);
             image = middleRowImages[Math.floor(Math.random() * middleRowImages.length)];
             break;
         case 2: // Large targets (bottom row)
-            radius = 80;
-            y = 450;
+            radius = canvas.height * 0.12;
+            y = canvas.height * 0.75;
             scoreValue = 100;
-            speed = 1.5;
+            speed = 1.5 * (canvas.width / 800);
             image = bottomRowImages[Math.floor(Math.random() * bottomRowImages.length)];
             break;
     }
@@ -319,7 +319,6 @@ canvas.addEventListener('mousedown', (event) => {
     drawGame(); // 弾数表示などを更新するため再描画
 });
 
-// 初期化処理
 // キャンバスのサイズをコンテナに合わせて調整する関数
 function resizeCanvas() {
     canvas.width = gameContainer.clientWidth;
