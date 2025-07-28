@@ -18,11 +18,30 @@ h1 {
 
 #gameContainer {
     position: relative;
-    width: 800px;
-    height: 600px;
+    width: 100%; /* 親要素の幅いっぱいに広がるように */
+    max-width: 800px; /* 元のデザインの最大幅 */
+    aspect-ratio: 4 / 3; /* 4:3のアスペクト比を維持 (800/600) */
     border: 5px solid #8d6e63; /* 木目調の枠 */
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* 影をつけて浮き上がらせる */
     overflow: hidden; /* はみ出た要素を隠す */
+}
+
+/* モバイルの横向き（landscape）の場合 */
+@media screen and (orientation: landscape) {
+    #gameContainer {
+        max-height: 90vh; /* ビューポートの高さの90%に制限 */
+        max-width: calc(90vh * 4 / 3); /* 高さに合わせて幅を計算し、アスペクト比を維持 */
+        width: auto; /* 幅はmax-widthに調整させる */
+    }
+}
+
+/* モバイルの縦向き（portrait）または小さい画面の場合 */
+@media screen and (max-width: 800px) {
+    #gameContainer {
+        width: 95vw; /* ビューポートの幅の95%を使用（余白のため） */
+        max-width: 95vw;
+        height: auto; /* アスペクト比に基づいて高さを自動調整 */
+    }
 }
 
 canvas {
