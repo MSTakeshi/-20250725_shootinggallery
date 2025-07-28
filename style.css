@@ -8,21 +8,38 @@ body {
     background-color: #ffe0b2; /* 夏祭りらしい暖色系の背景 */
     font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif; /* 丸みのあるフォント */
     color: #333;
-}
-
-h1 {
-    color: #d32f2f; /* 赤系のタイトル色 */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* 影をつけて立体感を出す */
-    margin-bottom: 20px;
+    overflow: hidden; /* スクロールバーが出ないように */
 }
 
 #gameContainer {
     position: relative;
-    width: 800px;
-    height: 600px;
+    width: 100%; /* 親要素の幅いっぱいに広がるように */
+    max-width: 800px; /* 元のデザインの最大幅 */
+    height: auto; /* アスペクト比に基づいて高さを自動調整 */
+    max-height: 100vh; /* ビューポートの高さに制限 */
+    aspect-ratio: 4 / 3; /* 4:3のアスペクト比を維持 (800/600) */
     border: 5px solid #8d6e63; /* 木目調の枠 */
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* 影をつけて浮き上がらせる */
     overflow: hidden; /* はみ出た要素を隠す */
+    margin: auto; /* 中央寄せ */
+}
+
+/* スマートフォンなどの小さい画面での調整 */
+@media (max-width: 800px), (max-height: 600px) {
+    #gameContainer {
+        width: 95vw; /* ビューポートの幅の95%を使用（余白のため） */
+        height: auto; /* アスペクト比に基づいて高さを自動調整 */
+        max-height: 95vh; /* ビューポートの高さの95%に制限 */
+    }
+}
+
+/* 横向き（landscape）の場合の調整 */
+@media screen and (orientation: landscape) {
+    #gameContainer {
+        height: 95vh; /* ビューポートの高さの95%を使用 */
+        width: auto; /* 高さに合わせて幅を自動調整 */
+        max-width: calc(95vh * 4 / 3); /* 高さに合わせた最大幅 */
+    }
 }
 
 canvas {
