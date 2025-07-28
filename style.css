@@ -18,29 +18,42 @@ h1 {
 
 #gameContainer {
     position: relative;
-    width: 100%; /* 親要素の幅いっぱいに広がるように */
-    max-width: 800px; /* 元のデザインの最大幅 */
-    aspect-ratio: 4 / 3; /* 4:3のアスペクト比を維持 (800/600) */
+    /* 画面の幅と高さのどちらか小さい方に合わせてサイズを調整 */
+    width: min(800px, 95vw); /* 最大800px、またはビューポート幅の95% */
+    height: auto; /* アスペクト比で高さを自動調整 */
+    aspect-ratio: 4 / 3; /* 4:3のアスペクト比を維持 */
     border: 5px solid #8d6e63; /* 木目調の枠 */
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* 影をつけて浮き上がらせる */
     overflow: hidden; /* はみ出た要素を隠す */
 }
 
-/* モバイルの横向き（landscape）の場合 */
-@media screen and (orientation: landscape) {
+/* スマートフォンなどの小さい画面での調整 */
+@media (max-width: 800px), (max-height: 600px) {
     #gameContainer {
-        max-height: 90vh; /* ビューポートの高さの90%に制限 */
-        max-width: calc(90vh * 4 / 3); /* 高さに合わせて幅を計算し、アスペクト比を維持 */
-        width: auto; /* 幅はmax-widthに調整させる */
+        /* 画面の幅と高さのどちらか小さい方に合わせてサイズを調整 */
+        width: min(800px, 95vw); /* ビューポート幅の95%か800pxの小さい方 */
+        height: auto; /* アスペクト比で高さを自動調整 */
+        max-height: min(600px, 95vh); /* ビューポート高さの95%か600pxの小さい方 */
     }
 }
 
-/* モバイルの縦向き（portrait）または小さい画面の場合 */
-@media screen and (max-width: 800px) {
+/* 横向き（landscape）の場合の調整 */
+@media screen and (orientation: landscape) {
     #gameContainer {
-        width: 95vw; /* ビューポートの幅の95%を使用（余白のため） */
-        max-width: 95vw;
-        height: auto; /* アスペクト比に基づいて高さを自動調整 */
+        /* 高さを優先して、アスペクト比を維持しつつ幅を調整 */
+        height: min(600px, 95vh); /* ビューポート高さの95%か600pxの小さい方 */
+        width: auto; /* 高さに合わせて幅を自動調整 */
+        max-width: calc(min(600px, 95vh) * 4 / 3); /* 高さに合わせた最大幅 */
+    }
+}
+
+/* 縦向き（portrait）の場合の調整 */
+@media screen and (orientation: portrait) {
+    #gameContainer {
+        /* 幅を優先して、アスペクト比を維持しつつ高さを調整 */
+        width: min(800px, 95vw); /* ビューポート幅の95%か800pxの小さい方 */
+        height: auto; /* 幅に合わせて高さを自動調整 */
+        max-height: calc(min(800px, 95vw) * 3 / 4); /* 幅に合わせた最大高さ */
     }
 }
 
