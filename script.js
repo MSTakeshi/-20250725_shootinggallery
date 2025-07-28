@@ -119,65 +119,67 @@ function createTargets() {
     // Clear existing targets before creating new ones
     targets.length = 0;
 
-    // Base radius for calculation, adjust as needed
-    const baseSize = Math.min(canvas.width, canvas.height); // Use min(width, height) for more consistent scaling
-    const baseRadius = baseSize / 10; // A more dynamic base
+    // Base size for calculation, adjust as needed
+    const baseSize = Math.min(canvas.width, canvas.height); 
+    const baseRadius = baseSize / 10; 
 
     // 上の列 (小さい的) - 一番速い
-    const smallRadius = Math.max(30, baseRadius * 0.7); // 最小値を設定
-    const smallY = canvas.height * 0.2; // 20% from top
+    const smallRadius = Math.max(30, baseRadius * 0.7); 
+    const smallY = canvas.height * 0.2; 
     const smallScore = 300;
-    const smallSpeed = 4 * (canvas.width / 800); // 幅に合わせて速度を調整
+    const smallSpeed = 4 * (canvas.width / 800); 
     const topImage1 = topRowImages[Math.floor(Math.random() * topRowImages.length)];
     const topImage2 = topRowImages[Math.floor(Math.random() * topRowImages.length)];
     targets.push(new Target(canvas.width * 0.2, smallY, smallRadius, topImage1, smallSpeed, smallScore));
     targets.push(new Target(canvas.width * 0.8, smallY, smallRadius, topImage2, -smallSpeed, smallScore));
 
     // 中の列 (中くらいの的) - 普通
-    const mediumRadius = Math.max(50, baseRadius * 1.0); // 最小値を設定
-    const mediumY = canvas.height * 0.5; // 50% from top
+    const mediumRadius = Math.max(50, baseRadius * 1.0); 
+    const mediumY = canvas.height * 0.5; 
     const mediumScore = 200;
-    const mediumSpeed = 2.5 * (canvas.width / 800); // 幅に合わせて速度を調整
+    const mediumSpeed = 2.5 * (canvas.width / 800); 
     const middleImage1 = middleRowImages[Math.floor(Math.random() * middleRowImages.length)];
     const middleImage2 = middleRowImages[Math.floor(Math.random() * middleRowImages.length)];
     targets.push(new Target(canvas.width * 0.2, mediumY, mediumRadius, middleImage1, mediumSpeed, mediumScore));
     targets.push(new Target(canvas.width * 0.8, mediumY, mediumRadius, middleImage2, -mediumSpeed, mediumScore));
 
     // 下の列 (大きい的) - ゆっくり
-    const largeRadius = Math.max(80, baseRadius * 1.3); // 最小値を設定
-    const largeY = canvas.height * 0.8; // 80% from top
+    const largeRadius = Math.max(80, baseRadius * 1.3); 
+    const largeY = canvas.height * 0.8; 
     const largeScore = 100;
-    const largeSpeed = 1.5 * (canvas.width / 800); // 幅に合わせて速度を調整
+    const largeSpeed = 1.5 * (canvas.width / 800); 
     const bottomImage1 = bottomRowImages[Math.floor(Math.random() * bottomRowImages.length)];
     const bottomImage2 = bottomRowImages[Math.floor(Math.random() * bottomRowImages.length)];
     targets.push(new Target(canvas.width * 0.2, largeY, largeRadius, bottomImage1, largeSpeed, largeScore));
     targets.push(new Target(canvas.width * 0.8, largeY, largeRadius, bottomImage2, -largeSpeed, largeScore));
+
+    console.log('Targets created:', targets);
 }
 
 // 新しい的を生成する関数
 function spawnTarget() {
-    const row = Math.floor(Math.random() * 3); // 0:small, 1:medium, 2:large
+    const row = Math.floor(Math.random() * 3); 
     let radius, y, scoreValue, speed, image;
 
     const baseSize = Math.min(canvas.width, canvas.height);
-    const baseRadius = baseSize / 10; // Consistent base
+    const baseRadius = baseSize / 10; 
 
     switch (row) {
-        case 0: // Small targets (top row)
+        case 0: 
             radius = Math.max(30, baseRadius * 0.7);
             y = canvas.height * 0.2;
             scoreValue = 300;
             speed = 4 * (canvas.width / 800);
             image = topRowImages[Math.floor(Math.random() * topRowImages.length)];
             break;
-        case 1: // Medium targets (middle row)
+        case 1: 
             radius = Math.max(50, baseRadius * 1.0);
             y = canvas.height * 0.5;
             scoreValue = 200;
             speed = 2.5 * (canvas.width / 800);
             image = middleRowImages[Math.floor(Math.random() * middleRowImages.length)];
             break;
-        case 2: // Large targets (bottom row)
+        case 2: 
             radius = Math.max(80, baseRadius * 1.3);
             y = canvas.height * 0.8;
             scoreValue = 100;
@@ -187,11 +189,11 @@ function spawnTarget() {
     }
 
     // ランダムなX座標と方向
-    // Ensure target spawns fully within canvas
     const x = Math.random() * (canvas.width - radius * 2) + radius;
     const dx = (Math.random() < 0.5 ? 1 : -1) * speed;
 
     targets.push(new Target(x, y, radius, image, dx, scoreValue));
+    console.log('Spawned new target:', targets[targets.length - 1]);
 }
 
 // ゲーム開始
@@ -255,6 +257,7 @@ function gameLoop() {
         });
         drawGame(); // ゲーム画面を描画
         animationFrameId = requestAnimationFrame(gameLoop); // 次のフレームを要求
+        console.log('gameLoop running, targets updating');
     }
 }
 
@@ -332,14 +335,28 @@ canvas.addEventListener('mousedown', (event) => {
 
 // キャンバスのサイズをコンテナに合わせて調整する関数
 function resizeCanvas() {
-    canvas.width = gameContainer.clientWidth;
-    canvas.height = gameContainer.clientHeight;
+    const displayWidth = gameContainer.clientWidth;
+    const displayHeight = gameContainer.clientHeight;
+
+    // Set the canvas's display size
+    canvas.style.width = displayWidth + 'px';
+    canvas.style.height = displayHeight + 'px';
+
+    // Set the canvas's internal resolution (for drawing)
+    const devicePixelRatio = window.devicePixelRatio || 1;
+    canvas.width = displayWidth * devicePixelRatio;
+    canvas.height = displayHeight * devicePixelRatio;
+
+    // Scale the context to ensure crisp drawing on high-DPI screens
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+
     // キャンバスサイズ変更後にゲームの描画を更新
     if (gameRunning) {
         drawGame();
     } else {
         initGame(); // ゲームが実行中でない場合は初期画面を再描画
     }
+    console.log(`Canvas resized to: ${canvas.width}x${canvas.height} (display: ${displayWidth}x${displayHeight})`);
 }
 
 // 初期化処理
