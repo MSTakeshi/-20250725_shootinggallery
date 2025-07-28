@@ -1,6 +1,6 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-const gameContainer = document.getElementById('gameContainer'); // gameContainer を取得
+const gameContainer = document.getElementById('gameContainer');
 const startButton = document.getElementById('startButton');
 const restartButton = document.getElementById('restartButton');
 const startButtonContainer = document.getElementById('startButtonContainer');
@@ -8,7 +8,7 @@ const gameOverScreen = document.getElementById('gameOverScreen');
 const finalScoreSpan = document.getElementById('finalScore');
 
 // 効果音のロード
-const hitSound = new Audio('./sounds/パッ.mp3'); // 修正: .mpd -> .mp3
+const hitSound = new Audio('./sounds/パッ.mp3');
 const gameOverSound = new Audio('./sounds/試合終了のゴング.mp3');
 
 // 画像ファイルのパス
@@ -120,7 +120,8 @@ function createTargets() {
     targets.length = 0;
 
     // Base radius for calculation, adjust as needed
-    const baseRadius = Math.min(canvas.width, canvas.height) / 10; // A more dynamic base
+    const baseSize = Math.min(canvas.width, canvas.height); // Use min(width, height) for more consistent scaling
+    const baseRadius = baseSize / 10; // A more dynamic base
 
     // 上の列 (小さい的) - 一番速い
     const smallRadius = Math.max(30, baseRadius * 0.7); // 最小値を設定
@@ -158,7 +159,8 @@ function spawnTarget() {
     const row = Math.floor(Math.random() * 3); // 0:small, 1:medium, 2:large
     let radius, y, scoreValue, speed, image;
 
-    const baseRadius = Math.min(canvas.width, canvas.height) / 10; // Consistent base
+    const baseSize = Math.min(canvas.width, canvas.height);
+    const baseRadius = baseSize / 10; // Consistent base
 
     switch (row) {
         case 0: // Small targets (top row)
@@ -235,14 +237,14 @@ function drawGame() {
 
     // スコア表示
     ctx.fillStyle = 'black';
-    ctx.font = '24px Arial';
-    ctx.fillText(`スコア: ${score}`, 10, 30);
+    ctx.font = `${canvas.height * 0.04}px Arial`; // フォントサイズも動的に
+    ctx.fillText(`スコア: ${score}`, canvas.width * 0.02, canvas.height * 0.05);
 
     // 残り弾数表示
-    ctx.fillText(`弾数: ${bullets}`, 10, 60);
+    ctx.fillText(`弾数: ${bullets}`, canvas.width * 0.02, canvas.height * 0.1);
 
     // 残り時間表示
-    ctx.fillText(`残り時間: ${timeLeft}秒`, canvas.width - 200, 30);
+    ctx.fillText(`残り時間: ${timeLeft}秒`, canvas.width * 0.7, canvas.height * 0.05);
 }
 
 // ゲームループ
