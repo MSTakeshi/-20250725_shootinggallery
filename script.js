@@ -1,6 +1,5 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-const gameContainer = document.getElementById('gameContainer'); // gameContainer を取得
 const startButton = document.getElementById('startButton');
 const restartButton = document.getElementById('restartButton');
 const startButtonContainer = document.getElementById('startButtonContainer');
@@ -320,19 +319,6 @@ canvas.addEventListener('mousedown', (event) => {
 });
 
 // 初期化処理
-// キャンバスのサイズをコンテナに合わせて調整する関数
-function resizeCanvas() {
-    canvas.width = gameContainer.clientWidth;
-    canvas.height = gameContainer.clientHeight;
-    // キャンバスサイズ変更後にゲームの描画を更新
-    if (gameRunning) {
-        drawGame();
-    } else {
-        initGame(); // ゲームが実行中でない場合は初期画面を再描画
-    }
-}
-
-// 初期化処理
 function initialize() {
     // ボタンを無効化し、ローディングメッセージを表示
     startButton.disabled = true;
@@ -343,12 +329,8 @@ function initialize() {
         // ボタンを有効化し、テキストを戻す
         startButton.disabled = false;
         startButton.textContent = 'ゲームスタート！';
-        resizeCanvas(); // 画像ロード後にキャンバスサイズを初期設定
         initGame();
     });
 }
-
-// ウィンドウのリサイズ時にキャンバスサイズを調整
-window.addEventListener('resize', resizeCanvas);
 
 initialize();
